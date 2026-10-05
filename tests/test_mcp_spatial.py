@@ -6,7 +6,7 @@ import io
 import json
 from typing import Any
 
-import pytest
+
 
 import mcp_spatial
 from mcp_spatial import (
