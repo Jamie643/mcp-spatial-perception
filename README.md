@@ -1,9 +1,11 @@
 # mcp-spatial-perception
 
 [![CI](https://github.com/jamie643/mcp-spatial-perception/actions/workflows/ci.yml/badge.svg)](https://github.com/jamie643/mcp-spatial-perception/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/mcp-spatial-perception.svg)](https://pypi.org/project/mcp-spatial-perception/)
+[![Publish](https://github.com/jamie643/mcp-spatial-perception/actions/workflows/publish.yml/badge.svg)](https://github.com/jamie643/mcp-spatial-perception/actions/workflows/publish.yml)
+[![PyPI version](https://img.shields.io/pypi/v/mcp-spatial-perception.svg?label=PyPI&color=blue)](https://pypi.org/project/mcp-spatial-perception/)
 [![Python versions](https://img.shields.io/pypi/pyversions/mcp-spatial-perception.svg)](https://pypi.org/project/mcp-spatial-perception/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 > **Give your AI agent eyes on the physical world.**
 >
