@@ -8,7 +8,7 @@ from typing import Any
 
 
 
-import mcp_spatial
+import mcp_spatial as mcp_spatial
 from mcp_spatial import (
     PROTOCOL_VERSION,
     TOOLS,
