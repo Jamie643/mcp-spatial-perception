@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "mcp-spatial-perception"
 version = "0.1.4"
-description = "Give your AI agent eyes on the physical world — an MCP server for real-time DePIN edge-vision queries."
+description = "An MCP server exposing real-time spatial perception queries from DePIN edge-vision nodes to LLM agents."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
