@@ -15,7 +15,7 @@ import sys
 import time
 from typing import Any
 
-__version__ = "0.1.0"
+__version__ = "0.1.4"
 
 PROTOCOL_VERSION = "2024-11-05"
 
