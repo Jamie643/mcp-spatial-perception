@@ -35,7 +35,8 @@ TOOLS: list[dict[str, Any]] = [
     {
         "name": "query_spatial_feed",
         "description": (
-            "Fetch real-time edge-parsed visual detection data from a physical DePIN node feed."
+            "Fetch real-time edge-parsed visual detection data from a physical "
+            "DePIN node feed."
         ),
         "inputSchema": {
             "type": "object",
@@ -83,7 +84,11 @@ def _ok(req_id: Any, result: dict[str, Any]) -> dict[str, Any]:
 
 
 def _err(req_id: Any, code: int, message: str) -> dict[str, Any]:
-    return {"jsonrpc": "2.0", "id": req_id, "error": {"code": code, "message": message}}
+    return {
+        "jsonrpc": "2.0",
+        "id": req_id,
+        "error": {"code": code, "message": message},
+    }
 
 
 # --- Request handling ------------------------------------------------------
