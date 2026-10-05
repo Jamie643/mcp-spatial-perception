@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mcp-spatial-perception"
-version = "0.1.0"
+version = "0.1.1"
 description = "An MCP server exposing real-time spatial perception queries from DePIN edge-vision nodes to LLM agents."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
-    { name = "Jamie643", email = "Jamesliberty330@gmail.com" }
+    { name = "Your Name", email = "you@example.com" }
 ]
 keywords = ["mcp", "llm", "depin", "spatial", "vision", "agents", "json-rpc"]
 classifiers = [
@@ -37,13 +37,34 @@ dev = [
 mcp-spatial-perception = "mcp_spatial:main"
 
 [project.urls]
-Homepage = "https://github.com/Jamie643/mcp-spatial-perception"
-Repository = "https://github.com/Jamie643/mcp-spatial-perception"
-Issues = "https://github.com/Jamie643/mcp-spatial-perception/issues"
+Homepage = "https://github.com/YOUR_USERNAME/mcp-spatial-perception"
+Repository = "https://github.com/YOUR_USERNAME/mcp-spatial-perception"
+Issues = "https://github.com/YOUR_USERNAME/mcp-spatial-perception/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["."]
 include = ["mcp_spatial.py"]
+exclude = [
+    ".gitignore",
+    ".git/",
+    ".github/",
+    "tests/",
+    "*.md",
+    "LICENSE",
+    "pyproject.toml",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["mcp_spatial.py"]
+exclude = [
+    ".gitignore",
+    ".git/",
+    ".github/",
+    "tests/",
+    "*.md",
+    "LICENSE",
+    "pyproject.toml",
+]
 
 [tool.ruff]
 line-length = 100
