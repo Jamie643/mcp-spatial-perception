@@ -35,8 +35,7 @@ TOOLS: list[dict[str, Any]] = [
     {
         "name": "query_spatial_feed",
         "description": (
-            "Fetch real-time edge-parsed visual detection data from a "
-            "physical DePIN node feed."
+            "Fetch real-time edge-parsed visual detection data from a physical DePIN node feed."
         ),
         "inputSchema": {
             "type": "object",
@@ -138,11 +137,7 @@ def handle_mcp_request(request: dict[str, Any]) -> dict[str, Any] | None:
         telemetry = mock_node_feed(node_id)
         return _ok(
             req_id,
-            {
-                "content": [
-                    {"type": "text", "text": json.dumps(telemetry)}
-                ]
-            },
+            {"content": [{"type": "text", "text": json.dumps(telemetry)}]},
         )
 
     # --- Unknown method ---
