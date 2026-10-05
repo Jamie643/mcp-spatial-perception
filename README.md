@@ -63,10 +63,16 @@ Restart Claude Desktop. The `query_spatial_feed` tool will appear in the tool pi
 
 ## Use with Cursor / Claude Code / any MCP client
 
-The server speaks JSON-RPC 2.0 over stdio. Any MCP-compatible client can launch it via the `mcp-spatial-perception` console script, or directly:
+The server speaks JSON-RPC 2.0 over stdio. Any MCP-compatible client can launch it via the `mcp-spatial-perception` console script:
 
 ```bash
-python -m mcp_spatial
+mcp-spatial-perception
+```
+
+Or directly, if you have the source checked out:
+
+```bash
+python mcp_spatial.py
 ```
 
 ## Use programmatically
@@ -93,9 +99,9 @@ print(response["result"]["content"][0]["text"])
 
 **Input**
 
-| Field     | Type     | Required | Description                          |
-| --------- | -------- | -------- | ------------------------------------ |
-| `node_id` | `string` | yes      | The DePIN node ID to query.          |
+| Field     | Type     | Required | Description                 |
+| --------- | -------- | -------- | --------------------------- |
+| `node_id` | `string` | yes      | The DePIN node ID to query. |
 
 **Output** — structured JSON describing the node's current visual state:
 
@@ -120,13 +126,26 @@ print(response["result"]["content"][0]["text"])
 }
 ```
 
-| Field           | Meaning                                                |
-| --------------- | ------------------------------------------------------ |
-| `node_id`       | Echo of the queried node.                              |
-| `timestamp`     | Unix seconds when the frame was captured.              |
-| `location`      | Latitude / longitude of the node.                      |
-| `detections`    | Objects found in the frame, with bounding boxes.       |
-| `environmental` | Lighting, occlusion, and other scene-level conditions. |
+| Field           | Meaning                                          |
+| --------------- | ------------------------------------------------ |
+| `node_id`       | Echo of the queried node.                        |
+| `timestamp`     | Unix seconds when the frame was captured.        |
+| `location`      | Latitude / longitude of the node.                |
+| `detections`    | Objects found in the frame, with bounding boxes. |
+| `environmental` | Lighting, occlusion, and other scene conditions. |
+
+---
+
+## FAQ
+
+**Why an MCP server and not just a REST API?**
+Because MCP is what Claude Desktop, Cursor, and Claude Code speak natively. A REST API would require each client to write a custom integration. An MCP server is a drop-in tool for every MCP-aware agent.
+
+**Why is the feed mocked right now?**
+To keep the protocol surface testable and stable while the DePIN adapter is built. The `mock_node_feed` function is a single, well-isolated seam — swapping it for a real network client doesn't touch the MCP logic.
+
+**Does this run the vision model?**
+No. Edge nodes do the frame extraction and inference on-device; this server relays the structured result. That's the point of DePIN — the compute is at the edge, not in your agent's process.
 
 ---
 
