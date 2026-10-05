@@ -6,9 +6,7 @@ import io
 import json
 from typing import Any
 
-
-
-import mcp_spatial as mcp_spatial
+import mcp_spatial
 from mcp_spatial import (
     PROTOCOL_VERSION,
     TOOLS,
@@ -17,9 +15,15 @@ from mcp_spatial import (
     serve,
 )
 
+# Reference the module via a name ruff recognizes as used.
+_ = mcp_spatial
 
-# --- helpers ---------------------------------------------------------------
-def rpc(method: str, params: dict[str, Any] | None = None, req_id: int = 1) -> dict[str, Any]:
+
+def _rpc(
+    method: str,
+    params: dict[str, Any] | None = None,
+    req_id: int = 1,
+) -> dict[str, Any]:
     """Build a minimal JSON-RPC 2.0 request object."""
     req: dict[str, Any] = {"jsonrpc": "2.0", "id": req_id, "method": method}
     if params is not None:
@@ -32,8 +36,10 @@ def test_mock_node_feed_shape() -> None:
     feed = mock_node_feed("node_abc")
     assert feed["node_id"] == "node_abc"
     assert isinstance(feed["timestamp"], int)
-    assert "lat" in feed["location"] and "lon" in feed["location"]
-    assert isinstance(feed["detections"], list) and feed["detections"]
+    assert "lat" in feed["location"]
+    assert "lon" in feed["location"]
+    assert isinstance(feed["detections"], list)
+    assert feed["detections"]
     for det in feed["detections"]:
         assert {"object", "confidence", "bounding_box"} <= det.keys()
 
@@ -45,7 +51,7 @@ def test_mock_node_feed_echoes_node_id() -> None:
 
 # --- initialize handshake --------------------------------------------------
 def test_initialize_returns_protocol_version() -> None:
-    resp = handle_mcp_request(rpc("initialize", req_id=42))
+    resp = handle_mcp_request(_rpc("initialize", req_id=42))
     assert resp is not None
     assert resp["jsonrpc"] == "2.0"
     assert resp["id"] == 42
@@ -56,14 +62,13 @@ def test_initialize_returns_protocol_version() -> None:
 
 
 def test_initialized_notification_returns_none() -> None:
-    # Notifications MUST NOT receive a response.
     assert handle_mcp_request({"jsonrpc": "2.0", "method": "notifications/initialized"}) is None
     assert handle_mcp_request({"jsonrpc": "2.0", "method": "initialized"}) is None
 
 
 # --- tools/list ------------------------------------------------------------
 def test_tools_list_exposes_query_spatial_feed() -> None:
-    resp = handle_mcp_request(rpc("tools/list"))
+    resp = handle_mcp_request(_rpc("tools/list"))
     assert resp is not None
     tools = resp["result"]["tools"]
     assert tools == TOOLS
@@ -81,7 +86,10 @@ def test_tools_list_schema_requires_node_id() -> None:
 # --- tools/call: happy path ------------------------------------------------
 def test_tools_call_query_spatial_feed_returns_telemetry() -> None:
     resp = handle_mcp_request(
-        rpc("tools/call", params={"name": "query_spatial_feed", "arguments": {"node_id": "n1"}})
+        _rpc(
+            "tools/call",
+            params={"name": "query_spatial_feed", "arguments": {"node_id": "n1"}},
+        )
     )
     assert resp is not None
     content = resp["result"]["content"]
@@ -95,7 +103,7 @@ def test_tools_call_query_spatial_feed_returns_telemetry() -> None:
 # --- tools/call: error paths ----------------------------------------------
 def test_tools_call_unknown_tool_returns_error() -> None:
     resp = handle_mcp_request(
-        rpc("tools/call", params={"name": "does_not_exist", "arguments": {}})
+        _rpc("tools/call", params={"name": "does_not_exist", "arguments": {}})
     )
     assert resp is not None
     assert resp["error"]["code"] == -32602
@@ -104,7 +112,7 @@ def test_tools_call_unknown_tool_returns_error() -> None:
 
 def test_tools_call_missing_node_id_returns_error() -> None:
     resp = handle_mcp_request(
-        rpc("tools/call", params={"name": "query_spatial_feed", "arguments": {}})
+        _rpc("tools/call", params={"name": "query_spatial_feed", "arguments": {}})
     )
     assert resp is not None
     assert resp["error"]["code"] == -32602
@@ -113,7 +121,10 @@ def test_tools_call_missing_node_id_returns_error() -> None:
 
 def test_tools_call_empty_node_id_returns_error() -> None:
     resp = handle_mcp_request(
-        rpc("tools/call", params={"name": "query_spatial_feed", "arguments": {"node_id": ""}})
+        _rpc(
+            "tools/call",
+            params={"name": "query_spatial_feed", "arguments": {"node_id": ""}},
+        )
     )
     assert resp is not None
     assert resp["error"]["code"] == -32602
@@ -128,7 +139,7 @@ def test_missing_method_returns_invalid_request() -> None:
 
 
 def test_unknown_method_returns_method_not_found() -> None:
-    resp = handle_mcp_request(rpc("does/not/exist", req_id=99))
+    resp = handle_mcp_request(_rpc("does/not/exist", req_id=99))
     assert resp is not None
     assert resp["error"]["code"] == -32601
     assert resp["id"] == 99
@@ -146,7 +157,7 @@ def _run_serve(*lines: str) -> list[dict[str, Any]]:
 
 
 def test_serve_handles_single_request() -> None:
-    resp = _run_serve(json.dumps(rpc("initialize", req_id=1)))
+    resp = _run_serve(json.dumps(_rpc("initialize", req_id=1)))
     assert len(resp) == 1
     assert resp[0]["id"] == 1
     assert "result" in resp[0]
@@ -154,10 +165,10 @@ def test_serve_handles_single_request() -> None:
 
 def test_serve_handles_multiple_requests() -> None:
     resp = _run_serve(
-        json.dumps(rpc("initialize", req_id=1)),
-        json.dumps(rpc("tools/list", req_id=2)),
+        json.dumps(_rpc("initialize", req_id=1)),
+        json.dumps(_rpc("tools/list", req_id=2)),
         json.dumps(
-            rpc(
+            _rpc(
                 "tools/call",
                 params={"name": "query_spatial_feed", "arguments": {"node_id": "n"}},
                 req_id=3,
@@ -168,7 +179,7 @@ def test_serve_handles_multiple_requests() -> None:
 
 
 def test_serve_skips_blank_lines() -> None:
-    resp = _run_serve("", "   ", json.dumps(rpc("tools/list", req_id=1)))
+    resp = _run_serve("", "   ", json.dumps(_rpc("tools/list", req_id=1)))
     assert len(resp) == 1
 
 
