@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "spatial-perception": {
+      "command": "mcp-spatial-perception"
+    }
+  }
+}
