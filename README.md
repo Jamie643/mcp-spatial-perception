@@ -80,15 +80,14 @@ python mcp_spatial.py
 ```python
 from mcp_spatial import handle_mcp_request
 
-response = handle_mcp_request({
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "tools/call",
-    "params": {
-        "name": "query_spatial_feed",
-        "arguments": {"node_id": "node_402"}
+response = handle_mcp_request(
+    {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "tools/call",
+        "params": {"name": "query_spatial_feed", "arguments": {"node_id": "node_402"}},
     }
-})
+)
 
 print(response["result"]["content"][0]["text"])
 ```
