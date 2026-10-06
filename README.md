@@ -11,6 +11,8 @@
 >
 > An [MCP](https://modelcontextprotocol.io) server that exposes real-time spatial perception queries from DePIN edge-vision nodes to any LLM that speaks the Model Context Protocol — Claude Desktop, Cursor, Claude Code, or a custom agent framework.
 
+[![PyPI page](docs/pypi.org_project_mcp-spatial-perception_.png)](https://pypi.org/project/mcp-spatial-perception/)
+
 ---
 
 ## The problem
