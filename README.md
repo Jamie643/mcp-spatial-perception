@@ -1,6 +1,6 @@
 # mcp-spatial-perception
 
-[![CI](https://github.com/jamie643/mcp-spatial-perception/actions/workflows/ci.yml/badge.svg)](https://github.com/jamie643/mcp-spatial-perception/actions/workflows/ci.yml)
+[![CI](https://github.com/Jamie643/mcp-spatial-perception/actions/workflows/ci.yml/badge.svg)](https://github.com/Jamie643/mcp-spatial-perception/actions/workflows/ci.yml)
 [![Publish](https://github.com/jamie643/mcp-spatial-perception/actions/workflows/publish.yml/badge.svg)](https://github.com/jamie643/mcp-spatial-perception/actions/workflows/publish.yml)
 [![PyPI version](https://img.shields.io/pypi/v/mcp-spatial-perception.svg?label=PyPI&color=blue)](https://pypi.org/project/mcp-spatial-perception/)
 [![Python versions](https://img.shields.io/pypi/pyversions/mcp-spatial-perception.svg)](https://pypi.org/project/mcp-spatial-perception/)
